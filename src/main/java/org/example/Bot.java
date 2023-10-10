@@ -1,4 +1,3 @@
-
 package org.example;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -7,7 +6,9 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import Logic.Logic;
-public class Bot extends TelegramLongPollingBot {
+/** класс, реализующий диалог с пользователем
+ * и работу с конкретным ботом */
+public class Bot extends TelegramLongPollingBot { //
     final String botName;
     final String botToken;
 
@@ -17,7 +18,8 @@ public class Bot extends TelegramLongPollingBot {
         this.botName = botName;
         this.botToken = botToken;
     }
-
+/** класс реализующий отправку тех же сообщений,
+ *  которые присылает пользователь */
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
@@ -37,11 +39,11 @@ public class Bot extends TelegramLongPollingBot {
 
         @Override
         public String getBotUsername () {
-            return "forJavaUrfubot"; // Здесь укажите имя вашего бота
+            return "forJavaUrfubot";
         }
 
 
         public String getBotToken () {
-            return "6627470072:AAFQjSFg5SrhPPGjnkQGxbYxqeVs5lRnJA8"; // Здесь укажите токен вашего бота
+            return "your_token";
         }
     }
