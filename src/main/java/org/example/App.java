@@ -7,6 +7,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 /** класс, завпускающий бота*/
 public class App {
     public static void main(String[] args) {
+
         String botName = "forJavaUrfubot";
         String botToken = "your_token";
         TelegramBotsApi telegramBotsApi = null;
