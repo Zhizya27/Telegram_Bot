@@ -6,24 +6,29 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import Logic.Logic;
-/** bot constructor class */
+
+/*
+* bot constructor class */
 public class Bot extends TelegramLongPollingBot {
 
     Logic botLogic;
     public Bot(){
         botLogic = new Logic();
     }
-/** method of getting the bot name from the configuration file*/
+/*
+* method of getting the bot name from the configuration file*/
     @Override
     public String getBotUsername () {
         return Config.botName;
     }
-/** method of getting the bot token from the configuration file */
+/*
+* method of getting the bot token from the configuration file */
     @Override
     public String getBotToken () {
         return Config.botToken;
     }
-/** a class that implements sending the same messages
+/*
+* a class that implements sending the same messages
  * that the user sends */
     @Override
     public void onUpdateReceived(Update update) {
