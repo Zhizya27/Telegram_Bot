@@ -6,12 +6,12 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 public class App {
     public static void main(String[] args) {
-        String botName = "forJavaUrfubot";
-        String botToken = "6627470072:AAFQjSFg5SrhPPGjnkQGxbYxqeVs5lRnJA8";
+
+        Config.loading();
         TelegramBotsApi telegramBotsApi = null;
         try {
             telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
-            telegramBotsApi.registerBot(new Bot(botName, botToken));
+            telegramBotsApi.registerBot(new Bot());
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
 
