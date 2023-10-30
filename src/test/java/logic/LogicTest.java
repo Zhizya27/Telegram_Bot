@@ -1,9 +1,14 @@
-package Logic;
+package logic;
 import org.junit.Assert;
 import org.junit.Test;
 
+/**
+ * класс для Unit-тестов класса Logic
+ */
 public class LogicTest {
-
+    /**
+     * метод, который тестирует "отзеркаливание сообщений"
+     */
     @Test
     public void commandHandlerTest() {
         Logic logic = new Logic();
@@ -18,12 +23,14 @@ public class LogicTest {
         String expected2 = "1917389344848?";
         String expected3 = "погода сегодня";
 
-        // Проверка, что сообщения "отзеркаливаются" правильно
         Assert.assertEquals(expected1, logic.commandHandler(message1));
         Assert.assertEquals(expected2, logic.commandHandler(message2));
         Assert.assertEquals(expected3, logic.commandHandler(message3));
     }
 
+    /**
+     * метод, который тестирует обработку команды /start
+     */
     @Test
     public void CommandHandlerStartCommandTest() {
 
@@ -38,10 +45,12 @@ public class LogicTest {
                 Пока я умею только отзеркаливать твои сообщения, но вскоре ты забудешь про приложение Напоминание и будешь польховаться только мной\s
                 """;
 
-        // Проверка, что команда /start правильно обрабатывается
         Assert.assertEquals(expected, logic.commandHandler(startCommand));
     }
 
+    /**
+     * метод, который тестирует обработку команды /help
+     */
     @Test
     public void CommandHandlerHelpCommandTest() {
 
