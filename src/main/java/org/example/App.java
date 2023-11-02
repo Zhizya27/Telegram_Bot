@@ -11,7 +11,7 @@ public class App {
     public static void main(String[] args) {
 
         Config config = new Config();
-        config.loading();
+        config.load();
         TelegramBotsApi telegramBotsApi = null;
         try {
             telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
