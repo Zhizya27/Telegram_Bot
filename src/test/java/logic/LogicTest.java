@@ -66,4 +66,21 @@ public class LogicTest {
                 "12.12.2023\n" +
                 "18:00 купить цветы", result3);
     }
+
+    /**
+     * Тест для команд /del и /list на наличие ответного сообщения при отсутствии напоминаний*/
+    @Test
+    public void testListDelTextCommand() {
+        assertEquals("Напоминаний нет! Чтобы задать напоминание, выберите функцию /add", logic.commandHandler("/list"));
+        assertEquals("Напоминаний нет! Чтобы задать напоминание, выберите функцию /add", logic.commandHandler("/del"));
+    }
+
+
+    /**
+     * Тест на проверку вывода сообщения о некорректном вводе команды*/
+    @Test
+    public void testUnknowMessageCommand() {
+        assertEquals("Я вас не понимаю. Пожалуйста, введите команду из списка команд.\n", logic.commandHandler("/lit"));
+        assertEquals("Я вас не понимаю. Пожалуйста, введите команду из списка команд.\n", logic.commandHandler("/delete"));
+    }
 }
