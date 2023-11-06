@@ -7,10 +7,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-
 import org.example.Config;
 import logic.Logic;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +16,7 @@ import java.util.List;
  * Класс для реализации телеграмм бота
  */
 public class Bot extends TelegramLongPollingBot {
+
 
     private final Logic botLogic;
     private final Config config;
@@ -60,7 +59,6 @@ public class Bot extends TelegramLongPollingBot {
      */
     @Override
     public String getBotToken() {
-
         return config.getBotToken();
     }
 

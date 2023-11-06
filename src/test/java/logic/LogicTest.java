@@ -1,70 +1,85 @@
 package logic;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import reminder.Reminder;
+import static org.junit.Assert.*;
 
 /**
- * класс для Unit-тестов класса Logic
- */
+ * Класс с тестами для всех функций бота*/
+
 public class LogicTest {
+    private Logic logic;
+    private Reminder reminder;
+
+
+    @Before
+    public void setUp() {
+        logic = new Logic();
+        reminder = new Reminder("", "");
+    }
+
+
+
     /**
-     * метод, который тестирует "отзеркаливание сообщений"
-     */
+     * Тест на проверку функции /add, что она действительно добавляет новые напоминания*/
     @Test
-    public void commandHandlerTest() {
-        Logic logic = new Logic();
+    public void testAddCommand() {
+        String result = logic.commandHandler("/add 12.12.2023 18:00 Купить цветы");
+        Assert.assertEquals("Напоминание установлено!", result);
 
-        // Тестовые сообщения для проверки "отзеркаливания"
-        String message1 = "привет, бот!";
-        String message2 = "1917389344848?";
-        String message3 = "погода сегодня";
+        Assert.assertEquals("Список ваших напоминаний:\n" +
+                "1. 12.12.2023   18:00 купить цветы\n", logic.commandHandler("/list"));
+    }
 
-        // Ожидаемые результаты
-        String expected1 = "привет, бот!";
-        String expected2 = "1917389344848?";
-        String expected3 = "погода сегодня";
 
-        Assert.assertEquals(expected1, logic.commandHandler(message1));
-        Assert.assertEquals(expected2, logic.commandHandler(message2));
-        Assert.assertEquals(expected3, logic.commandHandler(message3));
+
+
+    /**
+     * Тест на проверку функции /list, что происходит при добавлении нескольких напоминаний и вызове функции /list*/
+    @Test
+    public void testListCommand() {
+
+        String result1 = logic.commandHandler("/add 12.12.2023 18:00 Купить цветы");
+        String result2 = logic.commandHandler("/add 10.12.2023 18:00 Купить клюшку");
+        assertEquals("Список ваших напоминаний:\n" +
+                "1. 12.12.2023   18:00 купить цветы\n" +
+                "2. 10.12.2023   18:00 купить клюшку\n", logic.commandHandler("/list"));
     }
 
     /**
-     * метод, который тестирует обработку команды /start
-     */
+     * Тест на проверку функции /del, проверяет то, что ф-ия действительно удаляет данные*/
     @Test
-    public void CommandHandlerStartCommandTest() {
+    public void testDelCommand() {
+        // Добавим напоминание
+        String result1 = logic.commandHandler("/add 12.12.2023 18:00 Купить цветы");
+        String result2 = logic.commandHandler("/add 10.12.2023 18:00 Купить клюшку");
 
-        Logic logic = new Logic();
-
-        // Сообщение с командой /start
-        String startCommand = "/start";
-
-        // Ожидаемый результат для команды /start
-        String expected = """
-                Привет, мой друг! Я помогу тебе не забывать о твоих важных событиях!
-                Пока я умею только отзеркаливать твои сообщения, но вскоре ты забудешь про приложение Напоминание и будешь польховаться только мной\s
-                """;
-
-        Assert.assertEquals(expected, logic.commandHandler(startCommand));
+        assertEquals("Какое напоминание вы хотите удалить? Введите номер.\n" +
+                "1. 12.12.2023\n" +
+                "   18:00 купить цветы\n" +
+                "2. 10.12.2023\n" +
+                "   18:00 купить клюшку\n", logic.commandHandler("/del"));
+        String result3 = logic.commandHandler("1");
+        assertEquals("Напоминание удалено:\n" +
+                "12.12.2023\n" +
+                "18:00 купить цветы", result3);
     }
 
     /**
-     * метод, который тестирует обработку команды /help
-     */
+     * Тест для команд /del и /list на наличие ответного сообщения при отсутствии напоминаний*/
     @Test
-    public void CommandHandlerHelpCommandTest() {
+    public void testListDelTextCommand() {
+        assertEquals("Напоминаний нет! Чтобы задать напоминание, выберите функцию /add", logic.commandHandler("/list"));
+        assertEquals("Напоминаний нет! Чтобы задать напоминание, выберите функцию /add", logic.commandHandler("/del"));
+    }
 
-        Logic logic = new Logic();
 
-        // Сообщение с командой /help
-        String helpCommand = "/help";
-
-        // Ожидаемый результат для команды /help
-        String expected = """
-                Я - бот-Напоминания и освещатель ежедневынх праздников, я помогу тебе всегда знать, какой сегодня праздник! А еще, с помощью меня ты никогда не забудешь купить цветы своей маме, ведь можешь задать мне время и дату и я напишу тебе именно во столько
-                """;
-
-        // Проверка, что команда /help правильно обрабатывается
-        Assert.assertEquals(expected, logic.commandHandler(helpCommand));
+    /**
+     * Тест на проверку вывода сообщения о некорректном вводе команды*/
+    @Test
+    public void testUnknowMessageCommand() {
+        assertEquals("Я вас не понимаю. Пожалуйста, введите команду из списка команд.\n", logic.commandHandler("/lit"));
+        assertEquals("Я вас не понимаю. Пожалуйста, введите команду из списка команд.\n", logic.commandHandler("/delete"));
     }
 }

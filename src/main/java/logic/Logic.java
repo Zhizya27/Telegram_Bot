@@ -1,13 +1,12 @@
 package logic;
 import reminder.Reminder;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
-*Класс, который отвечает за логику бота
+ *Класс, который отвечает за логику бота
  */
 public class Logic {
     private List<Reminder> reminders = new ArrayList<>();
@@ -17,7 +16,6 @@ public class Logic {
 
     /**
      * Функция setChatId устанавливает идентификатор чата для бота
-     *
      * @param chatId идентификатор чата
      */
     public void setChatId(long chatId) {
@@ -27,7 +25,6 @@ public class Logic {
 
     /**
      * Функция - обработчик команд
-     *
      * @param message сообщение/функция пользователя
      * @return ответ на сообщение/функцию
      */
@@ -57,9 +54,14 @@ public class Logic {
             String dateTime = parts[1];
             String reminderText = parts[2];
 
-            reminders.add(new Reminder(dateTime, reminderText));
 
-            return "Напоминание установлено!";
+            // Проверяем, что текст напоминания не пуст
+            if (reminderText.isBlank()) {
+                return "Текст напоминания не может быть пустым. Введите текст напоминания.";
+            } else {
+                reminders.add(new Reminder(dateTime, reminderText));
+                return "Напоминание установлено!";
+            }
 
         } else if (message.equals("/del")) {
             if (reminders.isEmpty()) {
@@ -91,7 +93,8 @@ public class Logic {
             reminders = new ArrayList<>(remindersToDelete); // Обновляем список напоминаний после удаления
             isDeleteMode = false; // Выходим из режима удаления
             return "Напоминание удалено:\n" + deletedReminder.getDateTime() + "\n" + deletedReminder.getText();
-        } else if (message.startsWith("/list")) {
+        }
+         else if (message.startsWith("/list")) {
             if (reminders.isEmpty()) {
                 return "Напоминаний нет! Чтобы задать напоминание, выберите функцию /add";
             }

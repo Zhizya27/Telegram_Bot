@@ -32,6 +32,4 @@ public class Reminder {
     public String getText() {
         return text;
     }
-
 }
-

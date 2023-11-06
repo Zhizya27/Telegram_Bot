@@ -28,6 +28,7 @@ public class Config {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
         botName = properties.getProperty("botName", " ");
         botToken = properties.getProperty("botToken", " ");
     }
