@@ -1,5 +1,7 @@
 package logic;
 import reminder.Reminder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +63,7 @@ public class Logic {
                 return "Напоминание установлено!";
             }
 
-        }else if (message.equals("/del")) {
+        } else if (message.equals("/del")) {
             if (reminders.isEmpty()) {
                 return "Напоминаний нет! Чтобы задать напоминание, выберите функцию /add";
             }
@@ -92,8 +94,7 @@ public class Logic {
             isDeleteMode = false; // Выходим из режима удаления
             return "Напоминание удалено:\n" + deletedReminder.getDateTime() + "\n" + deletedReminder.getText();
         }
-
-        else if (message.startsWith("/list")) {
+         else if (message.startsWith("/list")) {
             if (reminders.isEmpty()) {
                 return "Напоминаний нет! Чтобы задать напоминание, выберите функцию /add";
             }

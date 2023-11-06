@@ -1,25 +1,47 @@
 package org.example;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
+import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-
-
+import org.example.Config;
 import logic.Logic;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Класс для реализации телеграмм бота
  */
 public class Bot extends TelegramLongPollingBot {
 
-    Logic botLogic;
+
+    private final Logic botLogic;
+    private final Config config;
 
     /**
      * Конструктор класса Bot
      */
     public Bot() {
         botLogic = new Logic();
+        config = new Config();
+        config.load();
+
+        List<BotCommand> listsOfCommands = new ArrayList<>();
+        listsOfCommands.add(new BotCommand("/start", "приветствие пользователя"));
+        listsOfCommands.add(new BotCommand("/help", "информация как пользоваться ботом"));
+        listsOfCommands.add(new BotCommand("/add", "установить напоминание"));
+        listsOfCommands.add(new BotCommand("/list", "показать список напоминаний"));
+        listsOfCommands.add(new BotCommand("/del", "удаление ненужного напоминания"));
+
+        try{
+            this.execute(new SetMyCommands(listsOfCommands, new BotCommandScopeDefault(), null));
+        }
+        catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+            }
     }
 
     /**
@@ -28,7 +50,7 @@ public class Bot extends TelegramLongPollingBot {
      */
     @Override
     public String getBotUsername() {
-        return Config.botName;
+        return config.getBotUserName();
     }
 
     /**
@@ -37,7 +59,7 @@ public class Bot extends TelegramLongPollingBot {
      */
     @Override
     public String getBotToken() {
-        return Config.botToken;
+        return config.getBotToken();
     }
 
     /**
