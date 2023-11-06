@@ -4,10 +4,14 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
+/**
+ * Главный класс, используется для запуска бота
+ */
 public class App {
     public static void main(String[] args) {
 
-        Config.loading();
+        Config config = new Config();
+        config.load();
         TelegramBotsApi telegramBotsApi = null;
         try {
             telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
