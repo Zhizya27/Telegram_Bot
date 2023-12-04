@@ -1,16 +1,13 @@
 package reminder;
 
-/**
-* Класс Reminder для представления напоминания
- */
 public class Reminder {
     private String dateTime; // Дата напоминания
     private String text; // Текст напоминания
 
     /**
-    *Конструктор класса Reminder
-    * @param dateTime дата и время напоминания
-    * @param text Текст напоминания
+     *Конструктор класса Reminder
+     * @param dateTime дата и время напоминания
+     * @param text Текст напоминания
      */
     public Reminder(String dateTime, String text) {
         this.dateTime = dateTime;
@@ -18,9 +15,9 @@ public class Reminder {
     }
 
     /**
-    * Метод, который возвращает время и дату напоминания
+     * Метод, который возвращает время и дату напоминания
      * @return dateTime
-    */
+     */
     public String getDateTime(){
         return dateTime;
     }
