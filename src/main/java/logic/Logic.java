@@ -3,16 +3,12 @@ package logic;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import reminder.Reminder;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import reminder.CalendarificApi;
 
 /**
@@ -30,12 +26,13 @@ public class Logic {
      * Состояние бота
      */
     private enum BotState {
-        NORMAL, AWAITING_REMINDER
+        NORMAL, AWAITING_REMINDER, AWAITING_HOLIDAY_DATE, AWAITING_HOLIDAY_DESCRIPTION
     }
 
     private StringBuilder pendingReminderText = new StringBuilder();
 
     private BotState currentState = BotState.NORMAL;
+    private String pendingHolidayDate;
 
     /**
      * Функция setChatId устанавливает идентификатор чата для бота
@@ -225,6 +222,30 @@ public class Logic {
 
                 return "Ошибка при получении информации о празднике";
             }
+        }
+        else if (message.equals("добавить праздник")) {
+
+            currentState = BotState.AWAITING_HOLIDAY_DATE;
+            return "На какую дату вы хотите добавить праздник? Введите в формате <дд.мм>.";
+        } else if (currentState == BotState.AWAITING_HOLIDAY_DATE) {
+
+            if (isValidDateFormat(message)) {
+                pendingHolidayDate = message;
+                currentState = BotState.AWAITING_HOLIDAY_DESCRIPTION;
+
+                return "Что отмечается в этот день?";
+            }
+            else {
+                return "Пожалуйста, введите дату в соответствии с нужным форматом!";
+            }
+
+        } else if (currentState == BotState.AWAITING_HOLIDAY_DESCRIPTION) {
+
+            String holidayDescription = message;
+            reminders.add(new Reminder(pendingHolidayDate, holidayDescription));
+            currentState = BotState.NORMAL;
+
+            return "Хорошо, я напомню вам об этом!";
         }
 
         return """
