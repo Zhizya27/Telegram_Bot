@@ -4,8 +4,14 @@ import logic.Logic;
 import org.junit.Assert;
 import org.junit.Test;
 
+/**
+ * Класс, тестирующий соединение с API
+ */
 public class TestApi {
 
+    /**
+     * Тест на проверку соединения с API Calendarific
+     */
     @Test
     public void testApiConnection() {
         try {

@@ -16,7 +16,9 @@ public class LogicTest {
     private Logic logic;
     private Reminder reminder;
 
-
+    /**
+     * Инициализация перед каждым тестом
+     */
     @Before
     public void setUp() {
         logic = new Logic();
