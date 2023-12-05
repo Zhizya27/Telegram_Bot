@@ -101,4 +101,12 @@ public class LogicTest {
         assertEquals("Хорошо, я напомню вам об этом!", result3);
     }
 
+    /** * Тестирует случай, когда пользователь вводит неправильный формат даты при добавлении  праздника
+     */@Test
+    public void testIncorrectFormatAddHoliday(){
+        String result = logic.commandHandler("добавить праздник");    assertEquals("На какую дату вы хотите добавить праздник? Введите в формате <дд.мм>.", result);
+        String result2 = logic.commandHandler("25^11");
+        assertEquals("Пожалуйста, введите дату в соответствии с нужным форматом!", result2);
+    }
+
 }
