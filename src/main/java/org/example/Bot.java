@@ -7,19 +7,22 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.example.Config;
+
 import logic.Logic;
+
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 /**
  * Класс для реализации телеграмм бота
  */
 public class Bot extends TelegramLongPollingBot {
-
-
     private final Logic botLogic;
     private final Config config;
+
+    Keyboard keyboardUtil = new Keyboard();
 
     /**
      * Конструктор класса Bot
@@ -41,8 +44,9 @@ public class Bot extends TelegramLongPollingBot {
         }
         catch (TelegramApiException e) {
             throw new RuntimeException(e);
-            }
+        }
     }
+
 
     /**
      * Метод, который предоставляет имя бота из конфигурационного файла
@@ -62,6 +66,7 @@ public class Bot extends TelegramLongPollingBot {
         return config.getBotToken();
     }
 
+
     /**
      * Это метод telegram-бота, который реагирует на новые сообщения
      *@param update Это объект API telegram, который помогает нам взаимодействовать с событиями чата
@@ -71,11 +76,11 @@ public class Bot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             String messageText = update.getMessage().getText();
             long chatId = update.getMessage().getChatId();
-            botLogic.setChatId(chatId);
             String answer = botLogic.commandHandler(messageText);
             SendMessage message = new SendMessage();
             message.setChatId(chatId);
             message.setText(answer);
+            message.setReplyMarkup(keyboardUtil.MenuKeyboard());
             try {
                 execute(message);
             } catch (TelegramApiException e) {
