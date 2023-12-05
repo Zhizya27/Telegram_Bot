@@ -4,8 +4,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import reminder.Reminder;
-
-
 import static org.junit.Assert.*;
 
 /**
@@ -61,11 +59,17 @@ public class LogicTest {
                 logic.commandHandler("добавить напоминание"));
         logic.commandHandler("12.11.2023 14:00 купить пончики и сделать английский");
 
+        String result = logic.commandHandler("добавить праздник");
+        assertEquals("На какую дату вы хотите добавить праздник? Введите в формате <дд.мм>.", result);
+        String result2 = logic.commandHandler("25.11");
+        assertEquals("Что отмечается в этот день?", result2);
+        logic.commandHandler("день рождения Артема Ахмадиева");
+
 
         assertEquals("Список ваших напоминаний:\n" +
                 "1. 11.11.2023 14:00   купить цветы\n" +
                 "2. 12.11.2023 14:00   купить пончики и сделать английский\n" +
-                 "\n" +
+                "3. 25.11   день рождения артема ахмадиева\n" + "\n" +
                 "Сегодня нет праздника", logic.commandHandler("список напоминаний"));
     }
 
@@ -104,6 +108,28 @@ public class LogicTest {
                 "11.11.2023" + " 14:00 купить цветы", result3);
     }
 
+    /**
+     * Тест команды "добавить напоминание"
+     */
+    @Test
+    public void addHolidayCommandTest(){
+        String result = logic.commandHandler("добавить праздник");
+        assertEquals("На какую дату вы хотите добавить праздник? Введите в формате <дд.мм>.", result);
+        String result2 = logic.commandHandler("25.11");
+        assertEquals("Что отмечается в этот день?", result2);
+        String result3 = logic.commandHandler("день рождения Артема Ахмадиева");
+        assertEquals("Хорошо, я напомню вам об этом!", result3);
+    }
+
+    /** * Тестирует случай, когда пользователь вводит неправильный формат даты при добавлении  праздника
+     */@Test
+    public void testIncorrectFormatAddHoliday(){
+        String result = logic.commandHandler("добавить праздник");    assertEquals("На какую дату вы хотите добавить праздник? Введите в формате <дд.мм>.", result);
+        String result2 = logic.commandHandler("25^11");
+        assertEquals("Пожалуйста, введите дату в соответствии с нужным форматом!", result2);
+    }
+
+
 
     /**
      * Тестирует случай, когда пользователь вводит номер напоминания, которого нет в списке
@@ -134,5 +160,4 @@ public class LogicTest {
         assertEquals("Напоминаний нет! Чтобы задать напоминание, нажмите на кнопку <добавить напоминание>", logic.commandHandler("удалить напоминания"));
 
      }
-
 }
