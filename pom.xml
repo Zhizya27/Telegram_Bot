@@ -47,17 +47,17 @@
     <dependency>
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>okhttp</artifactId>
-      <version>4.9.1</version> <!-- Проверьте последнюю версию на сайте OkHttp -->
+      <version>4.9.1</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
-      <version>4.5.13</version> <!-- Последняя версия на момент последнего обновления знаний (2022 год) -->
+      <version>4.5.13</version>
     </dependency>
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
-      <version>20210307</version> <!-- Используйте актуальную версию -->
+      <version>20210307</version>
     </dependency>
   </dependencies>
 </project>

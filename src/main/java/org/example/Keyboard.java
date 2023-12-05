@@ -7,9 +7,19 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Класс для создания клавиатуры с кнопками
+ */
 public class Keyboard {
 
-    public static ReplyKeyboardMarkup MenuKeyboard() {
+
+    /**
+     * Создает и возвращает клавиатуру с основными кнопками меню.
+     *
+     * @return keyboardMarkup, представляющий клавиатуру с кнопками
+     */
+    public ReplyKeyboardMarkup MenuKeyboard() {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
         keyboardMarkup.setSelective(true);
         keyboardMarkup.setResizeKeyboard(true);
