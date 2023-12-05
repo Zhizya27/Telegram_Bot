@@ -1,6 +1,10 @@
 package reminder;
 
+/**
+ *  Класс для работы с напоминаниями
+ */
 public class Reminder {
+
     private String dateTime; // Дата напоминания
     private String text; // Текст напоминания
 

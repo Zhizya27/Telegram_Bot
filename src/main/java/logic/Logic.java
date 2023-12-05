@@ -163,7 +163,7 @@ public class Logic {
 
             if (reminders.isEmpty()) {
 
-                return "Напоминаний нет! Чтобы задать напоминание, выберите функцию /add";
+                return "Напоминаний нет! Чтобы задать напоминание, нажмите на кнопку <добавить напоминание>";
             }
             isDeleteMode = true; // Входим в режим удаления
             remindersToDelete = new ArrayList<>(reminders); // Копируем текущий список напоминаний
@@ -200,7 +200,7 @@ public class Logic {
         } else if (message.equals("список напоминаний")) {
 
             if (reminders.isEmpty()) {
-                return "Напоминаний нет! Чтобы задать напоминание, выберите функцию /add";
+                return "Напоминаний нет! Чтобы задать напоминание, нажмите на кнопку <добавить напоминание>";
             }
             StringBuilder reminderList = new StringBuilder("Список ваших напоминаний:\n");
 

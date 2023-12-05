@@ -1,6 +1,6 @@
 package logic;
 
-import logic.Logic;
+
 import org.junit.Assert;
 import org.junit.Test;
 
