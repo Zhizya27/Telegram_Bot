@@ -3,10 +3,17 @@ package logic;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import reminder.CalendarificApi;
 import reminder.Reminder;
 
 
+
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 /**
  *  Покрывает модульными тестами класс Logic
@@ -16,10 +23,38 @@ public class LogicTest {
     private Reminder reminder;
 
 
+    @Mock
+    private CalendarificApi calendarificApi;
+
     @Before
     public void setUp() {
+        MockitoAnnotations.initMocks(this);
         logic = new Logic();
+        logic.setCalendarificApi(calendarificApi);
     }
+
+    @Test
+    public void testGetHolidayInfoForToday() throws Exception {
+        try{
+
+        when(calendarificApi.getHolidayInfo(any(), any(), any(), any())).thenReturn("{\"response\":{\"holidays\":[{\"name\":\"Unity Day\",\"description\":\"Unity Day, which is on November 4, is one of the newest and the most controversial holidays in Russia.\"}]}}");
+
+        String result = logic.getHolidayInfoForToday();
+
+        // Проверяем результат
+        Assert.assertNotNull(result);
+        if (result.contains("Сегодня праздник:")) {
+            Assert.assertTrue(result.contains("Описание:"));
+        } else if (result.contains("Сегодня нет праздника")) {
+            Assert.assertFalse(result.contains("Описание:"));
+        } else {
+            Assert.fail("Неожиданный ответ от API");
+        }
+    } catch (Exception ex) {
+        Assert.fail("Ошибка при выполнении теста: " + ex.getMessage());
+    }
+
+}
 
     /**
      * Тест на проверку функции "добавить напоминание"

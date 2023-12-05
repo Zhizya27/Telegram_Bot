@@ -14,6 +14,8 @@ public class Config {
     private String API_URL;
     private String API_KEY;
 
+    private String Point;
+
 
     /**
      * Конструктор класса Config
@@ -39,6 +41,7 @@ public class Config {
         botToken = properties.getProperty("botToken", " ");
         API_KEY = properties.getProperty("API_KEY", " ");
         API_URL = properties.getProperty("API_URL", " ");
+        Point = properties.getProperty("Point", " ");
     }
 
 
@@ -74,5 +77,9 @@ public class Config {
      */
     public String getAPI_URL() {
         return API_URL;
+    }
+
+    public String getPoint(){
+        return Point;
     }
 }

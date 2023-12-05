@@ -33,7 +33,7 @@ public class CalendarificApi {
      */
     public String getHolidayInfo(String country, String year, String month, String day) throws Exception {
         OkHttpClient client = new OkHttpClient();
-        String url = String.format("%s?api_key=%s&country=%s&year=%s&month=%s&day=%s&type=national,religious,local,observance",
+        String url = String.format(config.getPoint(),
                 config.getAPI_URL(), config.getAPI_KEY(), country, year, month, day);
 
         Request request = new Request.Builder().url(url).build();
