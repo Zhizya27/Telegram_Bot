@@ -21,7 +21,9 @@ public class CalendarificApi {
     public CalendarificApi() {
         config = new Config();
         config.load();
+
     }
+
 
     /**
      * Получает информацию о празднике по указанным параметрам.

@@ -21,19 +21,15 @@ public class Logic {
     private List<Reminder> remindersToDelete;
     private CalendarificApi calendarificApi = new CalendarificApi();
 
-
     public Logic() {
-        calendarificApi = calendarificApi;
+
     }
 
-    /**
-     * Устанавливает экземпляр CalendarificApi для класса Logic
-     *
-     * @param calendarificApi экземпляр CalendarificApi
-     */
-    public void setCalendarificApi(CalendarificApi calendarificApi) {
-        this.calendarificApi = calendarificApi;
+    public Logic(CalendarificApi calendarificApi) {
+        this.calendarificApi=calendarificApi;
+
     }
+
 
 
     /**
@@ -227,7 +223,7 @@ public class Logic {
                 CalendarificApi calendarificApi = new CalendarificApi();
                 String holidayInfo = getHolidayInfoForToday();
 
-                // Добавляем информацию о празднике в ответ бота
+                // Добавим информацию о празднике в ответ бота
                 return reminderList.toString() + "\n" +
                         holidayInfo;
 

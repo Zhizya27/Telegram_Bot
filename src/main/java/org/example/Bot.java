@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScope
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import logic.Logic;
+import reminder.CalendarificApi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.List;
  * Класс для реализации телеграмм бота
  */
 public class Bot extends TelegramLongPollingBot {
-    private final Logic botLogic;
+    private Logic botLogic;
     private final Config config;
 
     Keyboard keyboardUtil = new Keyboard();

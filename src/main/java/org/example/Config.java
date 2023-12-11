@@ -30,7 +30,7 @@ public class Config {
         Properties properties = new Properties();
 
         try {
-            properties.load(App.class.getClassLoader().getResourceAsStream("config.properties"));
+            properties.load(App.class.getClassLoader().getResourceAsStream(""));
         } catch (IOException e) {
             e.printStackTrace();
         }

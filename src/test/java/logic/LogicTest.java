@@ -1,32 +1,36 @@
 package logic;
 
+import org.example.Config;
 import org.junit.jupiter.api.Assertions;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import reminder.CalendarificApi;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
  *  Покрывает модульными тестами класс Logic
  */
 public class LogicTest {
-    @Mock
-    private CalendarificApi calendarificApiMock;
+    CalendarificApi calendarificApiMock;
+    Logic logic;
 
-    @InjectMocks
-    private Logic logic;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        logic = new Logic();
-        logic.setCalendarificApi(calendarificApiMock);
+        calendarificApiMock = Mockito.mock((CalendarificApi.class));
+        //config = mock(Config.class);
+        logic = new Logic(calendarificApiMock);
+
+
     }
 
 
@@ -62,8 +66,8 @@ public class LogicTest {
     @Test
     public void testListCommandWithoutHoliday(){
 
-        when(calendarificApiMock.getHolidayInfo(anyString(),anyString(), anyString(), anyString()))
-                .thenReturn("{\"response\":{\"holidays\":[]}}");
+        Mockito.when(calendarificApiMock.getHolidayInfo("ru","2023", "11", "20"))
+               .thenReturn("{\"response\":{\"holidays\":[]}}");
 
         logic.commandHandler("добавить напоминание");
         Assertions.assertEquals("Какое напоминание вы хотите добавить? Введите в формате <дд.мм.гггг> <чч:мм> <текст напоминания>.",
@@ -80,7 +84,7 @@ public class LogicTest {
                 "1. 11.11.2023 14:00   купить цветы\n" +
                 "2. 12.11.2023 14:00   купить пончики и сделать английский\n" +
                 "\n" +
-                "Сегодня нет праздника.", logic.commandHandler("список напоминаний"));
+                "Сегодня нет праздника", logic.commandHandler("список напоминаний"));
     }
 
 
@@ -92,7 +96,7 @@ public class LogicTest {
     @Test
     public void testListCommandWithHoiday(){
         when(calendarificApiMock.getHolidayInfo(anyString(),anyString(), anyString(), anyString()))
-                .thenReturn("{\"response\":{\"holidays\":[{\"name\":\"Unity Day\",\"description\":\"Unity Day, which is on November 4, is one of the newest and the most controversial holidays in Russia.\"}]}}");
+              .thenReturn("{\"response\":{\"holidays\":[{\"name\":\"Unity Day\",\"description\":\"Unity Day, which is on November 4, is one of the newest and the most controversial holidays in Russia.\"}]}}");
 
         logic.commandHandler("добавить напоминание");
         Assertions.assertEquals("Какое напоминание вы хотите добавить? Введите в формате <дд.мм.гггг> <чч:мм> <текст напоминания>.",
@@ -112,6 +116,7 @@ public class LogicTest {
                 "Сегодня праздник: Unity Day!\nОписание: Unity Day, which is on November 4, is one of the newest and the most controversial holidays in Russia.", logic.commandHandler("список напоминаний"));
 
     }
+
 
 
     /**
