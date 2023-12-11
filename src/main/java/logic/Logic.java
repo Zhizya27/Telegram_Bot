@@ -21,17 +21,6 @@ public class Logic {
     private List<Reminder> remindersToDelete;
     private CalendarificApi calendarificApi = new CalendarificApi();
 
-    public Logic() {
-
-    }
-
-    public Logic(CalendarificApi calendarificApi) {
-        this.calendarificApi=calendarificApi;
-
-    }
-
-
-
     /**
      * Состояние бота
      */

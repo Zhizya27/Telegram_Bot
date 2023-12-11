@@ -1,38 +1,31 @@
 package logic;
 
-import org.example.Config;
 import org.junit.jupiter.api.Assertions;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import reminder.CalendarificApi;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
  *  Покрывает модульными тестами класс Logic
  */
 public class LogicTest {
+    @Mock
     CalendarificApi calendarificApiMock;
-    Logic logic;
 
+    @InjectMocks
+    Logic logic;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        calendarificApiMock = Mockito.mock((CalendarificApi.class));
-        //config = mock(Config.class);
-        logic = new Logic(calendarificApiMock);
-
-
     }
-
 
     /**
      * Тест на проверку функции "добавить напоминание"
@@ -63,11 +56,13 @@ public class LogicTest {
      * Тест на проверку функции "список напоминнаий", что происходит при добавлении нескольких напоминаний и вызове функции ""список напоминаний",
      * а также случай, когда в этот день нет праздника
      */
-    @Test
-    public void testListCommandWithoutHoliday(){
 
-        Mockito.when(calendarificApiMock.getHolidayInfo("ru","2023", "11", "20"))
-               .thenReturn("{\"response\":{\"holidays\":[]}}");
+
+    @Test
+    public void testListCommandWithoutHoliday() {
+        // Мокируем вызов getHolidayInfo для возвращения пустого списка праздников
+        when(calendarificApiMock.getHolidayInfo(anyString(), anyString(), anyString(), anyString()))
+                .thenReturn("{\"response\":{\"holidays\":[]}}");
 
         logic.commandHandler("добавить напоминание");
         Assertions.assertEquals("Какое напоминание вы хотите добавить? Введите в формате <дд.мм.гггг> <чч:мм> <текст напоминания>.",
@@ -78,15 +73,14 @@ public class LogicTest {
         Assertions.assertEquals("Какое напоминание вы хотите добавить? Введите в формате <дд.мм.гггг> <чч:мм> <текст напоминания>.",
                 logic.commandHandler("добавить напоминание"));
         logic.commandHandler("12.11.2023 14:00 купить пончики и сделать английский");
-
-
-        Assertions.assertEquals("Список ваших напоминаний:\n" +
+        String expec = "Список ваших напоминаний:\n" +
                 "1. 11.11.2023 14:00   купить цветы\n" +
                 "2. 12.11.2023 14:00   купить пончики и сделать английский\n" +
                 "\n" +
-                "Сегодня нет праздника", logic.commandHandler("список напоминаний"));
+                "Сегодня нет праздника.";
+        Assertions.assertEquals(expec,
+                logic.commandHandler("список напоминаний"));
     }
-
 
     /**
      * Тест на проверку функции "список напоминнаий", что происходит при добавлении нескольких напоминаний и вызове функции ""список напоминаний",
@@ -96,7 +90,7 @@ public class LogicTest {
     @Test
     public void testListCommandWithHoiday(){
         when(calendarificApiMock.getHolidayInfo(anyString(),anyString(), anyString(), anyString()))
-              .thenReturn("{\"response\":{\"holidays\":[{\"name\":\"Unity Day\",\"description\":\"Unity Day, which is on November 4, is one of the newest and the most controversial holidays in Russia.\"}]}}");
+                .thenReturn("{\"response\":{\"holidays\":[{\"name\":\"Unity Day\",\"description\":\"Unity Day, which is on November 4, is one of the newest and the most controversial holidays in Russia.\"}]}}");
 
         logic.commandHandler("добавить напоминание");
         Assertions.assertEquals("Какое напоминание вы хотите добавить? Введите в формате <дд.мм.гггг> <чч:мм> <текст напоминания>.",
@@ -116,7 +110,6 @@ public class LogicTest {
                 "Сегодня праздник: Unity Day!\nОписание: Unity Day, which is on November 4, is one of the newest and the most controversial holidays in Russia.", logic.commandHandler("список напоминаний"));
 
     }
-
 
 
     /**

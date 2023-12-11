@@ -9,7 +9,7 @@ import java.util.Properties;
  * Класс для чтения из файла config.properties
  */
 public class Config {
-    String botName;
+    private String botName;
     private String botToken;
     private String API_URL;
     private String API_KEY;
