@@ -3,14 +3,13 @@ package org.example;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import logic.Logic;
-import reminder.CalendarificApi;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,8 +74,10 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
+            Message inMess = update.getMessage();
+            long chatId = inMess.getChatId();
             String messageText = update.getMessage().getText();
-            long chatId = update.getMessage().getChatId();
+            botLogic.setChatId(chatId);
             String answer = botLogic.commandHandler(messageText);
             SendMessage message = new SendMessage();
             message.setChatId(chatId);

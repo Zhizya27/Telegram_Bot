@@ -4,9 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import reminder.Reminder;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import reminder.CalendarificApi;
@@ -15,7 +13,7 @@ import reminder.CalendarificApi;
  *Класс, который отвечает за логику бота
  */
 public class Logic {
-    private List<Reminder> reminders = new ArrayList<>();
+    private Map<Long, List<Reminder>> remindersMap = new HashMap<>();
     private boolean isDeleteMode = false;
     private long chatId;
     private List<Reminder> remindersToDelete;
@@ -127,7 +125,8 @@ public class Logic {
      */
     public String commandHandler(String message) {
         message = message.toLowerCase();
-        //TODO
+
+        List<Reminder> reminders = remindersMap.computeIfAbsent(chatId, k -> new ArrayList<>());
         if (message.equals("/start")) {
             isDeleteMode = false;
             remindersToDelete = null;
@@ -198,7 +197,7 @@ public class Logic {
         } else if (message.equals("список напоминаний")) {
 
             if (reminders.isEmpty()) {
-                return "Напоминаний нет! Чтобы задать напоминание, нажмите на кнопку <добавить напоминание>";
+                return getHolidayInfoForToday() +  "\nНапоминаний нет! Чтобы задать напоминание, нажмите на кнопку <добавить напоминание>";
             }
             StringBuilder reminderList = new StringBuilder("Список ваших напоминаний:\n");
 
@@ -241,7 +240,7 @@ public class Logic {
         } else if (currentState == BotState.AWAITING_HOLIDAY_DESCRIPTION) {
 
             String holidayDescription = message;
-            reminders.add(new Reminder(pendingHolidayDate, holidayDescription));
+            reminders.add(new Reminder(pendingHolidayDate, holidayDescription, chatId));
             currentState = BotState.NORMAL;
 
             return "Хорошо, я напомню вам об этом!";
@@ -260,16 +259,28 @@ public class Logic {
      * @return результат обработки добавления напоминания
      */
     private String processAddReminder(String message) {
+
+        List<Reminder> reminders = remindersMap.computeIfAbsent(chatId, k -> new ArrayList<>());
         String[] parts = message.split(" ", -1);
 
         if (parts.length >= 3 && isValidDateTimeFormat(parts[0] + " " + parts[1])) {
 
             // Пользователь ввел дату, время и текст напоминания
             String reminderText = String.join(" ", Arrays.copyOfRange(parts, 2, parts.length));
-            reminders.add(new Reminder(parts[0] + " " + parts[1], reminderText));
+            reminders.add(new Reminder(parts[0] + " " + parts[1], reminderText, chatId));
 
             return "Напоминание установлено!";
         }
         return "Введите дату, время и текст напоминания в формате <дд.мм.гггг> <чч:мм> <текст напоминания>.";
+    }
+
+
+    /**
+     * вспомогательный метод для тестирования многопользовательского режима
+     * @param chatId
+     * @return список напоминаний
+     */
+    public List<Reminder> getRemindersForUser(long chatId) {
+        return remindersMap.getOrDefault(chatId, Collections.emptyList());
     }
 }
